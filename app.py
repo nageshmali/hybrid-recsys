@@ -42,13 +42,25 @@ st.markdown("""
 #MainMenu, footer, header {visibility:hidden}
 .stApp {background:#141414}
 
-/* Sidebar */
+/* ───────── SIDEBAR ───────── */
 section[data-testid="stSidebar"] {
     background: #0d0d0d !important;
     border-right: 1px solid #2a2a2a;
 }
 
-/* BUTTON FIX (single definition only) */
+/* Fix sidebar button spacing */
+section[data-testid="stSidebar"] .stButton {
+    margin: 6px 8px !important;
+}
+
+section[data-testid="stSidebar"] .stButton > button {
+    width: 100% !important;
+    border-radius: 8px !important;
+    padding: 10px !important;
+    font-size: 14px !important;
+}
+
+/* ───────── GLOBAL BUTTONS ───────── */
 div.stButton > button {
     width: 100%;
     background: #e50914 !important;
@@ -58,13 +70,37 @@ div.stButton > button {
     font-size: 13px !important;
     padding: 8px 0 !important;
     font-weight: 600 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
 }
 
 div.stButton > button:hover {
     background: #c0060f !important;
 }
 
-/* Inputs */
+/* ───────── WATCH BUTTON (HTML <a>) ───────── */
+a.watch-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: #e50914;
+    color: #ffffff !important;   /* 🔥 FIX TEXT INVISIBLE ISSUE */
+    padding: 8px 0;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+a.watch-btn:hover {
+    background: #c0060f;
+    color: #ffffff !important;
+}
+
+/* ───────── INPUTS ───────── */
 .stTextInput>div>div>input,
 .stSelectbox>div>div {
     background: #1f1f1f !important;
@@ -72,16 +108,21 @@ div.stButton > button:hover {
     border: 1px solid #333 !important;
 }
 
-/* Tabs */
+/* ───────── TABS ───────── */
 .stTabs [data-baseweb="tab"] {color:#888}
 .stTabs [aria-selected="true"] {
     color:white;
     border-bottom:2px solid #e50914;
 }
 
-/* Links */
-a {color:#e50914 !important}
-a:hover {color:#ff4444 !important}
+/* ───────── LINKS (SAFE) ───────── */
+/* Do NOT override all <a> globally */
+a:not(.watch-btn) {
+    color:#e50914 !important;
+}
+a:not(.watch-btn):hover {
+    color:#ff4444 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -386,17 +427,7 @@ def card(row, key_suffix, show_score=True):
         url = info.get('url') or ''
         if url:
             st.markdown(
-                f'<a href="{url}" target="_blank" '
-                f'style="display:block;width:100%;'
-                f'background:#e50914;'
-                f'color:#ffffff;'
-                f'text-align:center;'
-                f'padding:8px 0;'
-                f'border-radius:6px;'
-                f'font-size:13px;'
-                f'font-weight:700;'
-                f'text-decoration:none;'
-                f'cursor:pointer;">'
+                f'<a href="{url}" target="_blank" class="watch-btn">'
                 f'▶ Watch</a>',
                 unsafe_allow_html=True
             )
