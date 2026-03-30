@@ -41,22 +41,8 @@ st.markdown("""
 <style>
 #MainMenu,footer,header {visibility:hidden}
 .stApp {background:#141414}
-
-section[data-testid="stSidebar"] {
-    background  : #0d0d0d !important;
-    border-right: 1px solid #2a2a2a;
-}
-.stButton>button {
-    background    : #e50914 !important;
-    color         : #fff !important;
-    border        : none !important;
-    border-radius : 6px !important;
-    font-weight   : 600 !important;
-    padding       : 8px 16px !important;
-}
-.stButton>button:hover {background:#c0060f !important}
             
-
+/* Fix watchlist button width and alignment */
 .stButton {
     width : 100% !important;
     margin : 0 !important;
@@ -77,6 +63,21 @@ section[data-testid="stSidebar"] {
     color        : #e50914 !important;
     background   : #1f1f1f !important;
 }
+
+section[data-testid="stSidebar"] {
+    background  : #0d0d0d !important;
+    border-right: 1px solid #2a2a2a;
+}
+.stButton>button {
+    background    : #e50914 !important;
+    color         : #fff !important;
+    border        : none !important;
+    border-radius : 6px !important;
+    font-weight   : 600 !important;
+    padding       : 8px 16px !important;
+}
+.stButton>button:hover {background:#c0060f !important}
+            
 
 .stTextInput>div>div>input,
 .stSelectbox>div>div {
