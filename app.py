@@ -55,6 +55,28 @@ section[data-testid="stSidebar"] {
     padding       : 8px 16px !important;
 }
 .stButton>button:hover {background:#c0060f !important}
+            
+
+.stButton {
+    width : 100% !important;
+    margin : 0 !important;
+}
+.stButton > button {
+    width         : 100% !important;
+    margin        : 0 !important;
+    background    : #1f1f1f !important;
+    color         : #fff !important;
+    border        : 1px solid #333 !important;
+    border-radius : 6px !important;
+    font-size     : 13px !important;
+    padding       : 8px 0 !important;
+    font-weight   : 500 !important;
+}
+.stButton > button:hover {
+    border-color : #e50914 !important;
+    color        : #e50914 !important;
+    background   : #1f1f1f !important;
+}
 
 .stTextInput>div>div>input,
 .stSelectbox>div>div {
@@ -333,11 +355,12 @@ def card(row, key_suffix, show_score=True):
     short    = title[:18]+'...' if len(title) > 18 else title
     genre    = genres.split('|')[0] if genres else ''
 
+    # Poster
     if info['poster']:
         st.image(info['poster'], width=150)
     else:
         st.markdown(
-            "<div style='width:150px;height:210px;"
+            "<div style='width:150px;height:220px;"
             "background:#1f1f1f;border-radius:8px;"
             "display:flex;align-items:center;"
             "justify-content:center;"
@@ -345,40 +368,53 @@ def card(row, key_suffix, show_score=True):
             unsafe_allow_html=True
         )
 
+    # Title and genre
     st.markdown(
         f"<p style='margin:6px 0 2px;font-weight:700;"
-        f"font-size:13px;color:#fff'>{short}</p>"
+        f"font-size:13px;color:#fff;line-height:1.3'>"
+        f"{short}</p>"
         f"<p style='margin:0 0 3px;font-size:11px;"
         f"color:#666'>{genre}</p>",
         unsafe_allow_html=True
     )
 
+    # Score
     if show_score and score > 0:
         st.markdown(
-            f"<p style='margin:0 0 6px;font-size:12px;"
+            f"<p style='margin:0 0 8px;font-size:12px;"
             f"color:#e50914;font-weight:700'>"
             f"Score: {score:.3f}</p>",
             unsafe_allow_html=True
         )
 
-    # Watch — HTML link, instant, no rerun
+    # Watch button — full HTML, guaranteed visible
     url = info.get('url') or ''
     if url:
         st.markdown(
-            f'<a href="{url}" target="_blank"'
-            f' style="display:block;background:#e50914;'
-            f'color:#fff;text-align:center;padding:7px;'
-            f'border-radius:6px;font-size:12px;'
-            f'font-weight:600;text-decoration:none;'
-            f'margin-bottom:5px">▶ Watch</a>',
+            f'<a href="{url}" target="_blank" '
+            f'style="display:block;width:100%;'
+            f'box-sizing:border-box;'
+            f'background:#e50914;'
+            f'color:#ffffff !important;'
+            f'text-align:center;'
+            f'padding:8px 0;'
+            f'border-radius:6px;'
+            f'font-size:13px;'
+            f'font-weight:700;'
+            f'text-decoration:none !important;'
+            f'margin-bottom:6px;'
+            f'cursor:pointer;'
+            f'letter-spacing:0.5px">'
+            f'▶&nbsp;&nbsp;Watch</a>',
             unsafe_allow_html=True
         )
     else:
         st.markdown(
-            '<div style="background:#333;color:#666;'
-            'text-align:center;padding:7px;'
-            'border-radius:6px;font-size:12px;'
-            'margin-bottom:5px">▶ Watch</div>',
+            '<div style="width:100%;box-sizing:border-box;'
+            'background:#2a2a2a;color:#555;'
+            'text-align:center;padding:8px 0;'
+            'border-radius:6px;font-size:13px;'
+            'margin-bottom:6px">No link available</div>',
             unsafe_allow_html=True
         )
 
@@ -392,7 +428,7 @@ def card(row, key_suffix, show_score=True):
         )
         st.session_state.wl_msg = (
             f"✅ {short} added!"
-            if ok else "Already saved"
+            if ok else "Already in watchlist"
         )
         st.rerun()
 
