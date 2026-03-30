@@ -1,0 +1,22 @@
+{
+  "experiment": "Encoding comparison on MovieLens 1M slice",
+  "matrix_slice_size": "16x16",
+  "amplitude": {
+    "avg_info_loss": 0.510872,
+    "std_info_loss": 0.4895,
+    "qubits_needed": 4,
+    "compression": "16/4x"
+  },
+  "angle": {
+    "avg_info_loss": 0.0,
+    "std_info_loss": 0.0,
+    "qubits_needed": 16,
+    "compression": "1x (no compression)"
+  },
+  "basis": {
+    "avg_info_loss": 0.001786,
+    "std_info_loss": 0.002445,
+    "qubits_needed": 48,
+    "compression": "1/3x (expansion)"
+  }
+}

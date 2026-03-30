@@ -1,0 +1,42 @@
+{
+  "job_id": "d72htfuv3u3c73eimhn0",
+  "backend": "ibm_kingston",
+  "shots": 1024,
+  "simulated_features": [
+    0.056,
+    -0.0616,
+    -0.0583,
+    0.4172,
+    -0.1392
+  ],
+  "hardware_features": [
+    0.0742,
+    -0.2461,
+    0.2852,
+    -0.0977,
+    -0.1973
+  ],
+  "feature_differences": [
+    0.0182,
+    0.1845,
+    0.3434,
+    0.5148,
+    0.058
+  ],
+  "mean_noise_diff": 0.2238,
+  "max_noise_diff": 0.5148,
+  "noise_level": "Moderate",
+  "top_bitstrings": {
+    "01010": 102,
+    "11010": 99,
+    "11111": 93,
+    "10011": 81,
+    "10001": 61,
+    "10000": 54,
+    "00000": 46,
+    "01110": 45,
+    "11011": 44,
+    "10110": 35
+  },
+  "interpretation": "Noticeable noise impact. Typical for current quantum hardware."
+}

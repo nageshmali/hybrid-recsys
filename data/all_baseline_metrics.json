@@ -1,0 +1,21 @@
+{
+  "dataset": "MovieLens 1M",
+  "svd": {
+    "rmse": 0.8723,
+    "mae": 0.6848,
+    "precision_10": 0.6826,
+    "recall_10": 0.6322
+  },
+  "content_based": {
+    "rmse": 1.05,
+    "mae": 0.82,
+    "precision_10": 0.033,
+    "recall_10": 0.0199
+  },
+  "hybrid_classical": {
+    "rmse": 0.8723,
+    "mae": 0.6848,
+    "precision_10": 0.094,
+    "recall_10": 0.0656
+  }
+}

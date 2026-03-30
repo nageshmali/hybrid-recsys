@@ -1,0 +1,42 @@
+{
+  "title": "Three-Way Comparison \u2014 Final Results",
+  "dataset": "MovieLens 1M",
+  "threshold": 3.0,
+  "n_users": 200,
+  "k": 10,
+  "system_1_classical": {
+    "name": "Classical SVD",
+    "rmse": 0.8922,
+    "p10": 0.0715,
+    "r10": 0.0287
+  },
+  "system_2_quantum": {
+    "name": "Quantum IBM Kingston",
+    "backend": "ibm_kingston",
+    "job_id": "d72htfuv3u3c73eimhn0",
+    "rmse": 0.8922,
+    "p10": 0.073,
+    "r10": 0.0291
+  },
+  "system_3_integrated": {
+    "name": "Integrated Hybrid (SVD + QPCA + TF-IDF)",
+    "weights": {
+      "svd": 0.5,
+      "quantum": 0.3,
+      "content": 0.2
+    },
+    "rmse": 0.8922,
+    "p10": 0.103,
+    "r10": 0.0542
+  },
+  "improvements": {
+    "integrated_vs_classical": {
+      "p10_pct": 44.1,
+      "r10_pct": 89.1
+    },
+    "integrated_vs_quantum": {
+      "p10_pct": 41.1,
+      "r10_pct": 86.4
+    }
+  }
+}

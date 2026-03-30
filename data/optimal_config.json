@@ -1,0 +1,12 @@
+{
+  "weights": {
+    "w1_svd": 0.5,
+    "w2_quantum": 0.3,
+    "w3_content": 0.2
+  },
+  "threshold": 3.0,
+  "noise_correction": 0.9,
+  "n_users_evaluated": 200,
+  "best_p10": 0.103,
+  "best_r10": 0.0542
+}
