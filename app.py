@@ -122,8 +122,8 @@ div[data-testid="column"] {
 /* ------------------ WATCH BUTTON ------------------ */
 .watch-btn {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     height: 36px;
     width: 100%;
     background: #e50914;
@@ -134,13 +134,27 @@ div[data-testid="column"] {
     text-decoration: none !important;
 }
 
-/* ------------------ WATCHLIST FIX ------------------ */
+/* disabled */
+.watch-disabled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    width: 100%;
+    background: #2a2a2a;
+    color: #777;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+/* WATCHLIST FIX */
 .watchlist-btn div.stButton > button {
-    width: 100% !important;
     height: 36px !important;
+    width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
 }
+
 
 /* ------------------ INPUTS ------------------ */
 .stTextInput>div>div>input,
@@ -459,35 +473,38 @@ def card(row, key_suffix, show_score=True):
             unsafe_allow_html=True
         )
 
-    col1, col2 = st.columns([1,1], gap="small")
+    
 
-    col1, col2 = st.columns([1,1], gap="small")
+    btn_col = st.container()
 
-    col1, col2 = st.columns(2)
+    with btn_col:
+        col1, col2 = st.columns(2)
+
 
     # WATCH BUTTON
     with col1:
         url = info.get('url') or ''
         if url:
             st.markdown(
-                f'<a href="{url}" target="_blank" class="watch-btn">▶ Watch</a>',
+                f'''
+                <a href="{url}" target="_blank" class="watch-btn">
+                    ▶ Watch
+                </a>
+                ''',
                 unsafe_allow_html=True
             )
         else:
             st.markdown(
-                '<div class="watch-btn" style="background:#2a2a2a;color:#777;">No link</div>',
+                '<div class="watch-disabled">No link</div>',
                 unsafe_allow_html=True
             )
+
 
     # WATCHLIST BUTTON
     with col2:
         st.markdown('<div class="watchlist-btn">', unsafe_allow_html=True)
 
-        if st.button(
-            "+ Watchlist",
-            key=f"wl_{movie_id}_{key_suffix}",
-            use_container_width=True
-        ):
+        if st.button("+ Watchlist", key=f"wl_{movie_id}_{key_suffix}"):
             ok = db_add_watchlist(
                 st.session_state.username, movie_id, title
             )
@@ -497,6 +514,7 @@ def card(row, key_suffix, show_score=True):
             st.rerun()
 
         st.markdown('</div>', unsafe_allow_html=True)
+
 
 
 
