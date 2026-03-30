@@ -39,28 +39,57 @@ st.set_page_config(
 
 st.markdown("""
 <style>
+
+/* ------------------ GLOBAL ------------------ */
 #MainMenu, footer, header {visibility:hidden}
 .stApp {background:#141414}
 
-/* ───────── SIDEBAR ───────── */
+/* ------------------ SIDEBAR ------------------ */
 section[data-testid="stSidebar"] {
     background: #0d0d0d !important;
     border-right: 1px solid #2a2a2a;
 }
 
-/* Fix sidebar button spacing */
-section[data-testid="stSidebar"] .stButton {
-    margin: 6px 8px !important;
+/* remove extra padding */
+section[data-testid="stSidebar"] > div {
+    padding-top: 10px !important;
 }
 
+/* sidebar buttons container */
+section[data-testid="stSidebar"] .stButton {
+    width: 100% !important;
+    margin: 4px 0 !important;
+}
+
+/* sidebar buttons */
 section[data-testid="stSidebar"] .stButton > button {
     width: 100% !important;
-    border-radius: 8px !important;
-    padding: 10px !important;
+    text-align: left !important;
+    padding: 10px 14px !important;
     font-size: 14px !important;
+    border-radius: 8px !important;
+    background: #1f1f1f !important;
+    color: white !important;
+    border: none !important;
 }
 
-/* ───────── GLOBAL BUTTONS ───────── */
+/* sidebar hover */
+section[data-testid="stSidebar"] .stButton > button:hover {
+    background: #2a2a2a !important;
+}
+
+/* active sidebar button */
+.active-nav {
+    background: #e50914;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    margin: 4px 10px;
+}
+
+/* ------------------ GLOBAL BUTTON (NON-SIDEBAR) ------------------ */
 div.stButton > button {
     width: 100%;
     background: #e50914 !important;
@@ -70,37 +99,35 @@ div.stButton > button {
     font-size: 13px !important;
     padding: 8px 0 !important;
     font-weight: 600 !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
 }
 
+/* hover */
 div.stButton > button:hover {
     background: #c0060f !important;
 }
 
-/* ───────── WATCH BUTTON (HTML <a>) ───────── */
-a.watch-btn {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
+/* ------------------ WATCH BUTTON ------------------ */
+.watch-btn {
+    display: block;
     width: 100%;
+    text-align: center;
     background: #e50914;
-    color: #ffffff !important;   /* 🔥 FIX TEXT INVISIBLE ISSUE */
+    color: #ffffff !important;
     padding: 8px 0;
     border-radius: 6px;
     font-size: 13px;
     font-weight: 700;
     text-decoration: none !important;
-    cursor: pointer;
 }
 
-a.watch-btn:hover {
-    background: #c0060f;
-    color: #ffffff !important;
+/* ------------------ WATCHLIST FIX ------------------ */
+.watchlist-btn div.stButton > button {
+    width: 100% !important;
+    height: 36px !important;
+    padding: 8px 0 !important;
 }
 
-/* ───────── INPUTS ───────── */
+/* ------------------ INPUTS ------------------ */
 .stTextInput>div>div>input,
 .stSelectbox>div>div {
     background: #1f1f1f !important;
@@ -108,23 +135,20 @@ a.watch-btn:hover {
     border: 1px solid #333 !important;
 }
 
-/* ───────── TABS ───────── */
+/* ------------------ TABS ------------------ */
 .stTabs [data-baseweb="tab"] {color:#888}
 .stTabs [aria-selected="true"] {
     color:white;
     border-bottom:2px solid #e50914;
 }
 
-/* ───────── LINKS (SAFE) ───────── */
-/* Do NOT override all <a> globally */
-a:not(.watch-btn) {
-    color:#e50914 !important;
-}
-a:not(.watch-btn):hover {
-    color:#ff4444 !important;
-}
+/* ------------------ LINKS ------------------ */
+a {color:#e50914 !important}
+a:hover {color:#ff4444 !important}
+
 </style>
 """, unsafe_allow_html=True)
+
 
 
 
@@ -422,29 +446,30 @@ def card(row, key_suffix, show_score=True):
 
     col1, col2 = st.columns([1,1], gap="small")
 
-    # WATCH BUTTON (HTML)
+    col1, col2 = st.columns([1,1], gap="small")
+
+    # WATCH BUTTON
     with col1:
         url = info.get('url') or ''
         if url:
             st.markdown(
-                f'<a href="{url}" target="_blank" class="watch-btn">'
-                f'▶ Watch</a>',
+                f'<a href="{url}" target="_blank" class="watch-btn">▶ Watch</a>',
                 unsafe_allow_html=True
             )
         else:
             st.markdown(
-                '<div style="width:100%;background:#2a2a2a;'
-                'color:#777;text-align:center;padding:8px 0;'
-                'border-radius:6px;font-size:13px">'
-                'No link</div>',
+                '<div class="no-link-btn">No link</div>',
                 unsafe_allow_html=True
             )
 
-    # WATCHLIST BUTTON (STREAMLIT)
+    # WATCHLIST BUTTON
     with col2:
+        st.markdown('<div class="watchlist-btn">', unsafe_allow_html=True)
+
         if st.button(
             "+ Watchlist",
-            key=f"wl_{movie_id}_{key_suffix}"
+            key=f"wl_{movie_id}_{key_suffix}",
+            use_container_width=True
         ):
             ok = db_add_watchlist(
                 st.session_state.username, movie_id, title
@@ -453,6 +478,10 @@ def card(row, key_suffix, show_score=True):
                 f"✅ {short} added!" if ok else "Already in watchlist"
             )
             st.rerun()
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+
 
 
 
@@ -707,11 +736,7 @@ with st.sidebar:
     for key, label in nav.items():
         if st.session_state.page == key:
             st.markdown(
-                f"<div style='background:#e50914;"
-                f"color:#fff;padding:9px 14px;"
-                f"border-radius:7px;font-weight:600;"
-                f"font-size:14px;margin:2px 8px 4px'>"
-                f"{label}</div>",
+                f'<div class="active-nav">{label}</div>',
                 unsafe_allow_html=True
             )
         else:
