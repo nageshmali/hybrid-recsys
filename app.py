@@ -50,6 +50,13 @@ section[data-testid="stSidebar"] {
     border-right: 1px solid #2a2a2a;
 }
 
+/* Sidebar full height layout */
+section[data-testid="stSidebar"] > div:first-child {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
 /* remove extra padding */
 section[data-testid="stSidebar"] > div {
     padding-top: 10px !important;
@@ -106,14 +113,21 @@ div.stButton > button:hover {
     background: #c0060f !important;
 }
 
+/* ------------------ COLUMN ALIGNMENT FIX ------------------ */
+div[data-testid="column"] {
+    display: flex;
+    align-items: center;
+}
+
 /* ------------------ WATCH BUTTON ------------------ */
 .watch-btn {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
     width: 100%;
-    text-align: center;
     background: #e50914;
     color: #ffffff !important;
-    padding: 8px 0;
     border-radius: 6px;
     font-size: 13px;
     font-weight: 700;
@@ -124,7 +138,8 @@ div.stButton > button:hover {
 .watchlist-btn div.stButton > button {
     width: 100% !important;
     height: 36px !important;
-    padding: 8px 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* ------------------ INPUTS ------------------ */
@@ -448,6 +463,8 @@ def card(row, key_suffix, show_score=True):
 
     col1, col2 = st.columns([1,1], gap="small")
 
+    col1, col2 = st.columns(2)
+
     # WATCH BUTTON
     with col1:
         url = info.get('url') or ''
@@ -458,7 +475,7 @@ def card(row, key_suffix, show_score=True):
             )
         else:
             st.markdown(
-                '<div class="no-link-btn">No link</div>',
+                '<div class="watch-btn" style="background:#2a2a2a;color:#777;">No link</div>',
                 unsafe_allow_html=True
             )
 
@@ -480,6 +497,7 @@ def card(row, key_suffix, show_score=True):
             st.rerun()
 
         st.markdown('</div>', unsafe_allow_html=True)
+
 
 
 
@@ -703,36 +721,39 @@ watched_ids = [w[0] for w in watchlist]
 # ─────────────────────────────────────────────────────────────
 # SIDEBAR
 # ─────────────────────────────────────────────────────────────
+nav = {
+    'home'     : '🏠  Home',
+    'recs'     : '🎬  Recommendations',
+    'watchlist': '📋  Watchlist',
+    'research' : '📊  Research'
+}
+
 with st.sidebar:
-    st.markdown(f"""
+
+    # ---------- TOP SECTION ----------
+    st.markdown("""
     <div style='padding:24px 16px 12px;text-align:center'>
-        <div style='color:#e50914;font-size:22px;
-                    font-weight:900;letter-spacing:3px'>
+        <div style='color:#e50914;font-size:22px;font-weight:900;letter-spacing:3px'>
             QUANTUMREC
         </div>
-        <div style='color:#444;font-size:10px;
-                    letter-spacing:2px;margin-top:3px'>
+        <div style='color:#444;font-size:10px;letter-spacing:2px;margin-top:3px'>
             QUANTUM · CLASSICAL · AI
         </div>
     </div>
     <hr style='border-color:#2a2a2a;margin:0 0 12px'>
+    """, unsafe_allow_html=True)
+
+    st.markdown(f"""
     <div style='margin:0 12px 16px;background:#1f1f1f;
                 border-radius:8px;padding:10px 14px'>
-        <span style='color:#666;font-size:12px'>
-            Signed in as
-        </span><br>
-        <span style='color:#fff;font-size:14px;
-                     font-weight:700'>{username}</span>
+        <span style='color:#666;font-size:12px'>Signed in as</span><br>
+        <span style='color:#fff;font-size:14px;font-weight:700'>{username}</span>
     </div>
     """, unsafe_allow_html=True)
 
-    nav = {
-        'home'     : '🏠  Home',
-        'recs'     : '🎬  Recommendations',
-        'watchlist': '📋  Watchlist',
-        'research' : '📊  Research'
-    }
+    
 
+    # ---------- NAVIGATION ----------
     for key, label in nav.items():
         if st.session_state.page == key:
             st.markdown(
@@ -740,36 +761,27 @@ with st.sidebar:
                 unsafe_allow_html=True
             )
         else:
-            if st.button(
-                label,
-                key=f"nav_{key}",
-                use_container_width=True
-            ):
+            if st.button(label, key=f"nav_{key}", use_container_width=True):
                 st.session_state.page = key
                 st.rerun()
 
     st.markdown(
-        "<hr style='border-color:#2a2a2a;"
-        "margin:12px 0'>",
+        f"<div style='color:#444;font-size:11px;padding:10px 14px'>"
+        f"🎭 {' · '.join(genre_prefs[:3])}</div>",
         unsafe_allow_html=True
     )
 
-    genres_txt = ' · '.join(genre_prefs[:3])
-    st.markdown(
-        f"<div style='color:#444;font-size:11px;"
-        f"padding:0 14px;margin-bottom:12px'>"
-        f"🎭 {genres_txt}</div>",
-        unsafe_allow_html=True
-    )
+    # ---------- PUSH DOWN ----------
+    st.markdown("<div style='flex:1'></div>", unsafe_allow_html=True)
 
-    if st.button(
-        "Sign Out",
-        key="so",
-        use_container_width=True
-    ):
+    # ---------- BOTTOM SECTION ----------
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
+
+    if st.button("Sign Out", key="so", use_container_width=True):
         for k in list(st.session_state.keys()):
             del st.session_state[k]
         st.rerun()
+
 
 
 # ─────────────────────────────────────────────────────────────
