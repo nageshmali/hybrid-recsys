@@ -39,61 +39,52 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-#MainMenu,footer,header {visibility:hidden}
+#MainMenu, footer, header {visibility:hidden}
 .stApp {background:#141414}
-            
-/* Fix watchlist button width and alignment */
-.stButton {
-    width : 100% !important;
-    margin : 0 !important;
-}
-.stButton > button {
-    width         : 100% !important;
-    margin        : 0 !important;
-    background    : #1f1f1f !important;
-    color         : #fff !important;
-    border        : 1px solid #333 !important;
-    border-radius : 6px !important;
-    font-size     : 13px !important;
-    padding       : 8px 0 !important;
-    font-weight   : 500 !important;
-}
-.stButton > button:hover {
-    border-color : #e50914 !important;
-    color        : #e50914 !important;
-    background   : #1f1f1f !important;
-}
 
+/* Sidebar */
 section[data-testid="stSidebar"] {
-    background  : #0d0d0d !important;
+    background: #0d0d0d !important;
     border-right: 1px solid #2a2a2a;
 }
-.stButton>button {
-    background    : #e50914 !important;
-    color         : #fff !important;
-    border        : none !important;
-    border-radius : 6px !important;
-    font-weight   : 600 !important;
-    padding       : 8px 16px !important;
-}
-.stButton>button:hover {background:#c0060f !important}
-            
 
+/* BUTTON FIX (single definition only) */
+div.stButton > button {
+    width: 100%;
+    background: #e50914 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    padding: 8px 0 !important;
+    font-weight: 600 !important;
+}
+
+div.stButton > button:hover {
+    background: #c0060f !important;
+}
+
+/* Inputs */
 .stTextInput>div>div>input,
 .stSelectbox>div>div {
-    background : #1f1f1f !important;
-    color      : #fff !important;
-    border     : 1px solid #333 !important;
+    background: #1f1f1f !important;
+    color: #fff !important;
+    border: 1px solid #333 !important;
 }
+
+/* Tabs */
 .stTabs [data-baseweb="tab"] {color:#888}
 .stTabs [aria-selected="true"] {
     color:white;
-    border-bottom:2px solid #e50914
+    border-bottom:2px solid #e50914;
 }
+
+/* Links */
 a {color:#e50914 !important}
 a:hover {color:#ff4444 !important}
 </style>
 """, unsafe_allow_html=True)
+
 
 
 # ─────────────────────────────────────────────────────────────
@@ -388,50 +379,50 @@ def card(row, key_suffix, show_score=True):
             unsafe_allow_html=True
         )
 
-    # Watch button — full HTML, guaranteed visible
-    url = info.get('url') or ''
-    if url:
-        st.markdown(
-            f'<a href="{url}" target="_blank" '
-            f'style="display:block;width:100%;'
-            f'box-sizing:border-box;'
-            f'background:#e50914;'
-            f'color:#ffffff !important;'
-            f'text-align:center;'
-            f'padding:8px 0;'
-            f'border-radius:6px;'
-            f'font-size:13px;'
-            f'font-weight:700;'
-            f'text-decoration:none !important;'
-            f'margin-bottom:6px;'
-            f'cursor:pointer;'
-            f'letter-spacing:0.5px">'
-            f'▶&nbsp;&nbsp;Watch</a>',
-            unsafe_allow_html=True
-        )
-    else:
-        st.markdown(
-            '<div style="width:100%;box-sizing:border-box;'
-            'background:#2a2a2a;color:#555;'
-            'text-align:center;padding:8px 0;'
-            'border-radius:6px;font-size:13px;'
-            'margin-bottom:6px">No link available</div>',
-            unsafe_allow_html=True
-        )
+    col1, col2 = st.columns([1,1], gap="small")
 
-    # Watchlist button
-    if st.button(
-        "+ Watchlist",
-        key=f"wl_{movie_id}_{key_suffix}"
-    ):
-        ok = db_add_watchlist(
-            st.session_state.username, movie_id, title
-        )
-        st.session_state.wl_msg = (
-            f"✅ {short} added!"
-            if ok else "Already in watchlist"
-        )
-        st.rerun()
+    # WATCH BUTTON (HTML)
+    with col1:
+        url = info.get('url') or ''
+        if url:
+            st.markdown(
+                f'<a href="{url}" target="_blank" '
+                f'style="display:block;width:100%;'
+                f'background:#e50914;'
+                f'color:#ffffff;'
+                f'text-align:center;'
+                f'padding:8px 0;'
+                f'border-radius:6px;'
+                f'font-size:13px;'
+                f'font-weight:700;'
+                f'text-decoration:none;'
+                f'cursor:pointer;">'
+                f'▶ Watch</a>',
+                unsafe_allow_html=True
+            )
+        else:
+            st.markdown(
+                '<div style="width:100%;background:#2a2a2a;'
+                'color:#777;text-align:center;padding:8px 0;'
+                'border-radius:6px;font-size:13px">'
+                'No link</div>',
+                unsafe_allow_html=True
+            )
+
+    # WATCHLIST BUTTON (STREAMLIT)
+    with col2:
+        if st.button(
+            "+ Watchlist",
+            key=f"wl_{movie_id}_{key_suffix}"
+        ):
+            ok = db_add_watchlist(
+                st.session_state.username, movie_id, title
+            )
+            st.session_state.wl_msg = (
+                f"✅ {short} added!" if ok else "Already in watchlist"
+            )
+            st.rerun()
+
 
 
 def section(text):
