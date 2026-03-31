@@ -9,7 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 TMDB_KEY  = "fe62152d82255c8c555b5f146a9a0331"
 TMDB_BASE = "https://api.themoviedb.org/3"
 TMDB_IMG  = "https://image.tmdb.org/t/p/w300"
-DB_PATH   = "users.db"
+DB_PATH = "/tmp/users.db"
 DATA      = "data/"
 
 GENRES = ["Action","Adventure","Animation","Children","Comedy",
