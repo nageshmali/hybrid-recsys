@@ -26,73 +26,86 @@ st.markdown("""
 <style>
 #MainMenu,footer,header{visibility:hidden}
 .stApp{background:#111111}
-[data-testid="stSidebar"]{background:#0a0a0a !important;border-right:1px solid #222}
+
+[data-testid="stSidebar"]{
+    background:#0a0a0a !important;
+    border-right:1px solid #222
+}
+
 [data-testid="stSidebar"] .stButton>button{
     background:#1a1a1a !important;
     color:#ccc !important;
     border:1px solid #2a2a2a !important;
     border-radius:8px !important;
-    text-align:left !important;
-    padding:10px 14px !important;
+    padding:0 14px !important;
     font-size:14px !important;
     font-weight:500 !important;
     width:100% !important;
     margin:2px 0 !important;
-    min-height:44px !important;
-    line-height:1 !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:flex-start !important;
-    white-space:nowrap !important;
-    overflow:hidden !important
-}         
+    height:44px !important;
+    line-height:44px !important;
+    text-align:left !important
+}
 [data-testid="stSidebar"] .stButton>button:hover{
     background:#222 !important;
     color:#fff !important;
     border-color:#e50914 !important
-}          
+}
 [data-testid="stSidebar"] .stButton>button p{
     text-align:left !important;
     margin:0 !important;
-    width:100% !important
+    line-height:44px !important
 }
+[data-testid="stSidebar"] .stButton{
+    margin:2px 0 !important
+}
+
 .stTextInput>div>div>input{
-    background:#1a1a1a !important;color:#fff !important;
-    border:1px solid #333 !important;border-radius:8px !important;
+    background:#1a1a1a !important;
+    color:#fff !important;
+    border:1px solid #333 !important;
+    border-radius:8px !important;
     padding:10px 14px !important
 }
 .stTabs [data-baseweb="tab"]{color:#666;font-size:15px;padding:10px 20px}
 .stTabs [aria-selected="true"]{color:#fff;border-bottom:2px solid #e50914}
+
 .main-btn>a{
-    display:block;background:#e50914;color:#fff !important;
-    text-align:center;padding:9px 0;border-radius:8px;
-    font-size:13px;font-weight:700;text-decoration:none !important;
-    margin-bottom:6px;letter-spacing:0.3px
+    display:block;
+    background:#e50914;
+    color:#fff !important;
+    text-align:center;
+    padding:9px 0;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:700;
+    text-decoration:none !important;
+    margin-bottom:6px;
+    letter-spacing:0.3px;
+    width:100%;
+    box-sizing:border-box
 }
 .main-btn>a:hover{background:#c0060f !important}
-.wl-btn>button{
+.main-btn{width:100%;display:block;box-sizing:border-box}
+
+div[data-testid="stButton"]:not([data-testid="stSidebar"] div[data-testid="stButton"]){
+    width:100% !important
+}
+div[data-testid="stButton"]:not([data-testid="stSidebar"] div[data-testid="stButton"])>button{
     background:#1a1a1a !important;
     color:#aaa !important;
     border:1px solid #2a2a2a !important;
     border-radius:8px !important;
     font-size:13px !important;
     font-weight:500 !important;
-    padding:9px 0 !important;
+    height:40px !important;
     width:100% !important;
-    min-width:100% !important;
-    box-sizing:border-box !important;
-    display:block !important
+    padding:0 !important
 }
-.wl-btn>button:hover{
+div[data-testid="stButton"]:not([data-testid="stSidebar"] div[data-testid="stButton"])>button:hover{
     border-color:#e50914 !important;
-    color:#fff !important
-}
-.wl-btn{
-    width:100% !important;
-    display:block !important
-}
-.wl-btn [data-testid="stButton"]{
-    width:100% !important
+    color:#fff !important;
+    background:#1a1a1a !important
 }
 </style>
 """, unsafe_allow_html=True)
@@ -324,11 +337,10 @@ with st.sidebar:
                 f"padding:10px 14px;border-radius:8px;"
                 f"font-size:14px;font-weight:700;"
                 f"margin:2px 12px 4px;"
-                f"min-height:44px;"
+                f"height:44px;"
                 f"display:flex;align-items:center;"
                 f"box-sizing:border-box;"
-                f"white-space:nowrap;"
-                f"line-height:1'>{icon} &nbsp;{label}</div>",
+                f"white-space:nowrap'>{icon} &nbsp;{label}</div>",
                 unsafe_allow_html=True
             )
         else:
@@ -387,12 +399,10 @@ def card(row, uid, show_score=True):
             'No link</div>', unsafe_allow_html=True)
 
     # Watchlist button — styled separately via CSS class trick
-    st.markdown('<div class="wl-btn">', unsafe_allow_html=True)
-    if st.button("＋ Watchlist", key=f"wl_{movie_id}_{uid}"):
+    if st.button("＋ Watchlist", key=f"wl_{movie_id}_{uid}", use_container_width=True):
         ok = db_add_wl(username, movie_id, title)
         st.session_state.wl_msg = f"✅ {short} added!" if ok else "Already saved"
         st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # ── HELPERS ───────────────────────────────────────────────────
 def section(t):
