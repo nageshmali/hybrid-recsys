@@ -28,15 +28,33 @@ st.markdown("""
 .stApp{background:#111111}
 [data-testid="stSidebar"]{background:#0a0a0a !important;border-right:1px solid #222}
 [data-testid="stSidebar"] .stButton>button{
-    background:#1a1a1a !important;color:#ccc !important;
-    border:1px solid #2a2a2a !important;border-radius:8px !important;
-    text-align:left !important;padding:10px 14px !important;
-    font-size:14px !important;font-weight:500 !important;
-    width:100% !important;margin:2px 0 !important
-}
+    background:#1a1a1a !important;
+    color:#ccc !important;
+    border:1px solid #2a2a2a !important;
+    border-radius:8px !important;
+    text-align:left !important;
+    padding:10px 14px !important;
+    font-size:14px !important;
+    font-weight:500 !important;
+    width:100% !important;
+    margin:2px 0 !important;
+    min-height:44px !important;
+    line-height:1 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    white-space:nowrap !important;
+    overflow:hidden !important
+}         
 [data-testid="stSidebar"] .stButton>button:hover{
-    background:#222 !important;color:#fff !important;
+    background:#222 !important;
+    color:#fff !important;
     border-color:#e50914 !important
+}          
+[data-testid="stSidebar"] .stButton>button p{
+    text-align:left !important;
+    margin:0 !important;
+    width:100% !important
 }
 .stTextInput>div>div>input{
     background:#1a1a1a !important;color:#fff !important;
@@ -53,12 +71,29 @@ st.markdown("""
 }
 .main-btn>a:hover{background:#c0060f !important}
 .wl-btn>button{
-    background:#1a1a1a !important;color:#aaa !important;
-    border:1px solid #2a2a2a !important;border-radius:8px !important;
-    font-size:13px !important;font-weight:500 !important;
-    padding:8px 0 !important;width:100% !important
+    background:#1a1a1a !important;
+    color:#aaa !important;
+    border:1px solid #2a2a2a !important;
+    border-radius:8px !important;
+    font-size:13px !important;
+    font-weight:500 !important;
+    padding:9px 0 !important;
+    width:100% !important;
+    min-width:100% !important;
+    box-sizing:border-box !important;
+    display:block !important
 }
-.wl-btn>button:hover{border-color:#e50914 !important;color:#fff !important}
+.wl-btn>button:hover{
+    border-color:#e50914 !important;
+    color:#fff !important
+}
+.wl-btn{
+    width:100% !important;
+    display:block !important
+}
+.wl-btn [data-testid="stButton"]{
+    width:100% !important
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -288,7 +323,12 @@ with st.sidebar:
                 f"<div style='background:#e50914;color:#fff;"
                 f"padding:10px 14px;border-radius:8px;"
                 f"font-size:14px;font-weight:700;"
-                f"margin:2px 12px 4px'>{icon} &nbsp;{label}</div>",
+                f"margin:2px 12px 4px;"
+                f"min-height:44px;"
+                f"display:flex;align-items:center;"
+                f"box-sizing:border-box;"
+                f"white-space:nowrap;"
+                f"line-height:1'>{icon} &nbsp;{label}</div>",
                 unsafe_allow_html=True
             )
         else:
