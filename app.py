@@ -9,7 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 TMDB_KEY  = "fe62152d82255c8c555b5f146a9a0331"
 TMDB_BASE = "https://api.themoviedb.org/3"
 TMDB_IMG  = "https://image.tmdb.org/t/p/w300"
-DB_PATH = "/tmp/users.db"
+DB_PATH   = "users.db"
 DATA      = "data/"
 
 GENRES = ["Action","Adventure","Animation","Children","Comedy",
@@ -365,13 +365,20 @@ def card(row, uid, show_score=True):
 
     # Poster
     if info["poster"]:
-        st.image(info["poster"], width=145)
+        st.markdown(
+            f'<img src="{info["poster"]}" '
+            f'style="width:100%;border-radius:8px;'
+            f'display:block;margin-bottom:8px">',
+            unsafe_allow_html=True
+        )
     else:
         st.markdown(
-            "<div style='width:145px;height:200px;background:#1a1a1a;"
+            "<div style='width:100%;height:200px;background:#1a1a1a;"
             "border-radius:8px;display:flex;align-items:center;"
-            "justify-content:center;color:#2a2a2a;font-size:36px'>🎬</div>",
-            unsafe_allow_html=True)
+            "justify-content:center;color:#2a2a2a;font-size:36px;"
+            "margin-bottom:8px'>🎬</div>",
+            unsafe_allow_html=True
+        )
 
     # Info
     st.markdown(
